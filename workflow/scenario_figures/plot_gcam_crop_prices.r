@@ -6,7 +6,10 @@ library(ggplot2)
 library(viridis)
 
 indir = "./"
-outdir = "./"
+outdir = "./scenario_outputs/"
+
+# create the output directory
+dir.create(outdir)
 
 # gcam output data file with detailed land allocation and ag yield scalar data (with feedbacks)
 gcam_output_name_fdbk = paste0(indir,"20240730_SSP245_ZATM.dat")

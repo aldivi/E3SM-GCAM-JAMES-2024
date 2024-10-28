@@ -27,7 +27,7 @@ library(rgcam)
 
 # with feedbacks
 indir = "./"
-outdir = "./"
+outdir = "./scenario_outputs/"
 # gcam output data file with detailed land allocation and ag yield scalar data (with feedbacks)
 gcam_output_name = paste0(indir,"20240730_SSP245_ZATM.dat")
 
@@ -75,7 +75,7 @@ grassland = c(gcam_grassland_names)
 
 
 plot_e3sm_gcam_scalars <- function(indir = "./",
-                                   outdir = "./",
+                                   outdir = "./scenario_outputs/",
                                    gcam_region_info_file = "./iac_region_glu_codes.csv",
                                    gcam_boundaries_dir = "./gcam_boundaries_moirai_3p1_0p5arcmin_wgs84/",
 								   gcam_reg_glu_shape_fname = "reg_glu_boundaries_moirai_combined_3p1_0p5arcmin.shp",
@@ -90,6 +90,9 @@ plot_e3sm_gcam_scalars <- function(indir = "./",
     # hardcode these output file names          
     regglu_map_outname = "regXglu_scalar_maps"
 	region_map_outname = "region_scalar_maps"
+        
+    # create the output directory
+    dir.create(outdir)
                                    	
     # read the region and basin info
     region_info = read.csv(gcam_region_info_file, stringsAsFactors=FALSE)

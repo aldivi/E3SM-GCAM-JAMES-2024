@@ -8,8 +8,11 @@
 
 library(ggplot2)
 
-indir = "."
-outdir = "."
+indir = "./"
+outdir = "./scenario_outputs/"
+
+# create the output directory
+dir.create(outdir)
 
 #### gcam outputs
 
@@ -22,7 +25,8 @@ gcam_fdbk_in = read.csv(gcam_fdbk_file, stringsAsFactors = FALSE)
 gcam_agfdbk_in = read.csv(gcam_agfdbk_file, stringsAsFactors = FALSE)
 gcam_cfdbk_in = read.csv(gcam_cfdbk_file, stringsAsFactors = FALSE)
 
-plot_data = rbind(fdbk_in, agfdbk_in[agfdbk_in$scenario == "AG_FDBK",], cfdbk_in[cfdbk_in$scenario == "C_FDBK",])
+plot_data = rbind(gcam_fdbk_in, gcam_agfdbk_in[gcam_agfdbk_in$scenario == "AG_FDBK",], gcam_cfdbk_in[gcam_cfdbk_in$scenario == "C_FDBK",])
+plot_data$X = NULL
 plot_data = plot_data[plot_data$region == "Global",]
 panlabs = c("a) Bioenergy crop", "b) Harvested forest", "c) Non-bioenergy crop", "d) Non-harvested forest", "e) All crop", "f) All forest")
 scenlabs = c("C_FDBK", "AG_FDBK", "FULL_FDBK", "CONTROL")
@@ -90,7 +94,7 @@ gcam_df = gcam_fdbk_in[gcam_fdbk_in$region == "Global" & (gcam_fdbk_in$gcam_cove
 names(gcam_df) = c("Year", "type", "value", "scenario")
 gcam_df$units = "area_thous_km2"
 gcam_df$model = "GCAM"
-gcam_df = gcam_df[,names(plot_data)]
+#gcam_df = gcam_df[,names(plot_data)]
 gcam_df$type[gcam_df$type == "gcam_crop"] = "a) Crop"
 gcam_df$type[gcam_df$type == "gcam_forest"] = "b) Forest"
 
@@ -130,9 +134,9 @@ for (s in unique(gcam_out$scenario)) {
 } # end s loop over scenario
 }
 
-plot_data = rbind(elm_data, gcam_out)
+plot2_data = rbind(elm_data, gcam_out)
 
-p2 <- ggplot(data=plot_data, aes(x=Year, y=value, color=scenario, linetype = model)) +
+p2 <- ggplot(data=plot2_data, aes(x=Year, y=value, color=scenario, linetype = model)) +
 	geom_line(linewidth=1) +
 	#scale_x_continuous(breaks=seq(from=2015, to=2090, by=15), expand=c(0.01,0.01)) +
 	xlim(2015, 2100) +
